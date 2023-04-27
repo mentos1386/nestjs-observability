@@ -1,1 +1,2 @@
-export * from './lib/spec.module';
+export * from './lib/provider';
+export * from './lib/attributes';
