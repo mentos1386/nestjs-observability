@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nest-observabilty/core": ["libs/core/src/index.ts"],
+      "@nest-observabilty/spec": ["libs/spec/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
