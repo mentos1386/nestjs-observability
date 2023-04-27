@@ -9,6 +9,9 @@
 </p>
 
 
+> **Warning**
+> This project is still in the making and not yet published to NPM.
+
 ### Description
 
 This is a collection of modules for [Nest](https://github.com/nestjs/nest) which bring you opinionated observability solution.
@@ -29,6 +32,108 @@ suposed to be the 80% solution and for the more specific (niche) use cases you c
 
 `nestjs-observability` should make it easiy to get observability solution in place, but not block you when trying to do more.
 
+
+## Example
+
+```
+npm i @nestjs-observabilty/core @nestjs-observabilty/provider-pino pino pino-pretty
+```
+
+> main.ts
+```ts
+import { NestFactory } from '@nestjs/core';
+
+import { ObservabilityLogger } from '@nestjs-observability/core';
+import { AppModule } from './app/app.module';
+
+async function bootstrap() {
+  // Make sure to buffer logs.
+  // To not use the Nest Default logger before we use the ObservabilityLogger.
+  // You can read more about this https://docs.nestjs.com/techniques/logger#dependency-injection
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+
+  // Get ObservabilityLogger instance.
+  const logger = app.get(ObservabilityLogger);
+  // Use it as Nest default logger.
+  app.useLogger(logger);
+
+  await app.listen(3000);
+
+  logger.log(
+    `🚀 Application is running on: http://localhost:3000`
+  );
+}
+
+bootstrap();
+```
+
+> app.module.ts
+```ts
+import { Module } from '@nestjs/common';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+import {
+  ObservabilityLevel,
+  ObservabilityModule,
+} from '@nestjs-observability/core';
+import {
+  ProviderPino,
+  ProviderPinoModule,
+} from '@nestjs-observability/provider-pino';
+
+@Module({
+  imports: [
+    // Example configuration for ProviderPino.
+    ProviderPinoModule.forRoot({
+      pinoOptions: {
+        base: undefined,
+        formatters: { level: (label) => ({ level: label }) },
+        transport: { target: 'pino-pretty' },
+      },
+    }),
+    // Configure ObservabilityModule with our ProviderPino
+    ObservabilityModule.forRoot({
+      level: ObservabilityLevel.DEBUG,
+      providers: [ProviderPino],
+      // Enables ObservabilityMiddleware to be used.
+      // This _injects_ observability context to all http requests.
+      middleware: true,
+    }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}```
+
+
+> app.service.ts
+```ts
+import { ObservabilityService } from '@nestjs-observability/core';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class AppService {
+  // Import ObservabilityService
+  constructor(private readonly ObservabilityService: ObservabilityService) {}
+
+  getData(userId: string): { message: string } {
+    // Set some attributes, contextual informaton.
+    this.ObservabilityService.setAttributes({ 'user.id': userId });
+
+    // Use different levels to observe actions.
+    this.ObservabilityService.debug('Called getData!');
+
+    // Capture errors,
+    // the rrorId can be used to send as response, to
+    // give be able to corelate the errors on cleint side with logs/traces etc.
+    const { errorId } = this.observabilityService.error(new Error("Huh?"));
+
+    return { message: 'Hello API' };
+  }
+}
+```
 
 ## Architecure
 
