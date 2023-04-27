@@ -10,6 +10,7 @@ on:
 
 env:
   NX_CLOUD_AUTH_TOKEN: ${{ secrets.NX_CLOUD_TOKEN }}
+  CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
 jobs:
   main:
@@ -30,30 +31,6 @@ jobs:
       - name: Collect Test Coverage
         run: |
           touch coverage/lcov.info
-          npx lcov-result-merger 'coverage-tmp/**' 'coverage/lcov.info'
+          npx lcov-result-merger 'coverage/**' 'coverage/lcov.info'
       - name: Send Test Coverage
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/lcov.info
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        language: ['javascript']
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: ${{ matrix.language }}
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2

@@ -1,54 +1,19 @@
-name: Test
+name: Automerge
 on:
   push:
     branches:
       - main
   pull_request:
 
-  schedule:
-    - cron: '0 0 * * *'
-
-env:
-  NX_CLOUD_AUTH_TOKEN: ${{ secrets.NX_CLOUD_TOKEN }}
-  CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-
 jobs:
-  main:
+  auto-merge:
+    needs: main
+    if: (contains(github.event.pull_request.user.login, 'dependabot') || contains(github.event.pull_request.user.login, 'renovate')) && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v3
-      - run: npm ci
-
-      - run: npx nx format:check
-      - run: npx nx affected -t lint --parallel=3
-      - run: npx nx affected -t test --parallel=3 --configuration=ci
-      - run: npx nx affected -t e2e --parallel=3 --configuration=ci
-      - run: npx nx affected -t build --parallel=3
-
-      - name: Collect Test Coverage
-        run: |
-          touch coverage/lcov.info
-          npx lcov-result-merger 'coverage-tmp/**' 'coverage/lcov.info'
-      - name: Send Test Coverage
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/lcov.info
-
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: javascript
-
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+      - name: automerge
+        uses: pascalgn/automerge-action@v0.15.6
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          MERGE_LABELS: ''
+          MERGE_METHOD: rebase
