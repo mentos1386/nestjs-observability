@@ -2,6 +2,10 @@
   <a href="http://nestjs.com/" target="blank"><img src="http://kamilmysliwiec.com/public/nest-logo.png#1" alt="Nest Logo" />   </a>
 </p>
 
+<p align="center">
+<a href="https://app.codacy.com/gh/mentos1386/nestjs-observability/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/8829117cffa74d5f86ad0bfae5937706"/></a>
+</p>
+
 <h1 align="center">Observability solution for NestJS</h1>
 
 ### Description
