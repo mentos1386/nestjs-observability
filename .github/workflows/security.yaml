@@ -6,7 +6,7 @@ on:
   pull_request:
 
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '30 1 * * 0'
 
 permissions:
   actions: read
@@ -20,14 +20,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
-        with:
-          languages: 'javascript'
+
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
