@@ -1,0 +1,5 @@
+{
+  "name": "@nestjs-observability/provider-pino",
+  "version": "0.0.1",
+  "type": "commonjs"
+}

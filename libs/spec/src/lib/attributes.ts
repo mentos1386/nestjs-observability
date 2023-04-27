@@ -5,7 +5,7 @@ export type Attributes = Record<string, string>;
 // https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-semantic-conventions
 //
 // All the attributes defined here should start with `no` to denote "nestjs-observability" namespace.
-export enum ConventionalAttribute {
+export enum CommonAttributes {
   ERROR_ID = 'no.error.id',
   ERROR_MESSAGE = 'no.error.message',
   ERROR_NAME = 'no.error.name',

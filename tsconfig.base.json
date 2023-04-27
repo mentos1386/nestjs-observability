@@ -15,8 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nest-observabilty/core": ["libs/core/src/index.ts"],
-      "@nest-observabilty/spec": ["libs/spec/src/index.ts"]
+      "@nestjs-observability/core": ["libs/core/src/index.ts"],
+      "@nestjs-observability/provider-pino": [
+        "libs/provider-pino/src/index.ts"
+      ],
+      "@nestjs-observability/spec": ["libs/spec/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

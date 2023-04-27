@@ -1,5 +1,5 @@
 {
-  "name": "@nest-observabilty/core",
+  "name": "@nestjs-observability/core",
   "version": "0.0.1",
   "type": "commonjs"
 }
