@@ -105,8 +105,8 @@ import {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}```
-
+export class AppModule {}
+```
 
 > app.service.ts
 ```ts
