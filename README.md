@@ -2,13 +2,16 @@
   <a href="http://nestjs.com/" target="blank"><img src="http://kamilmysliwiec.com/public/nest-logo.png#1" alt="Nest Logo" />   </a>
 </p>
 
-<p align="center">Observability solution for NestJS</p>
+<h1 align="center">Observability solution for NestJS</h1>
 
-## Description
+### Description
 
 This is a collection of modules for [Nest](https://github.com/nestjs/nest) which bring you opinionated observability solution.
+
 It's a combination of an `@nestjs-observability/core` module which brings the core functionality that is suposed to be used by
-libraries and applications. And a set of _providers_ such as `@nestjs-observability/opentelemetry`, `@nestjs-observability/sentry`,
+libraries and applications.
+
+And a set of _providers_ such as `@nestjs-observability/opentelemetry`, `@nestjs-observability/sentry`,
 `@nestjs-observability/pino` and more. The addons are following a `@nestjs-observability/spec` which means that any new provider
 can be easily added and plugied in to the whole observability pipeline.
 
