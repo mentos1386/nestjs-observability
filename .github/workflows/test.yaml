@@ -13,7 +13,7 @@ env:
   CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
 jobs:
-  main:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
