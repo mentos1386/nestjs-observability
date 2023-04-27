@@ -1,0 +1,7 @@
+{
+  "changelog": true,
+  "npm": true,
+  "github": true,
+  "repositoryUrl": "https://github.com/mentos1386/nestjs-observability",
+  "branches": ["main"]
+}
