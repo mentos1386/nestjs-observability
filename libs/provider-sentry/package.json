@@ -1,0 +1,5 @@
+{
+  "name": "@nestjs-observability/provider-sentry",
+  "version": "0.0.1",
+  "type": "commonjs"
+}
