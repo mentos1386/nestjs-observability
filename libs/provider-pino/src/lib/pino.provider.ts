@@ -1,5 +1,5 @@
 import { Inject, Injectable, OnApplicationShutdown } from '@nestjs/common';
-import pino, { Logger } from 'pino';
+import { Logger } from 'pino';
 import { Attributes, Provider } from '@nestjs-observability/spec';
 import { AsyncLocalStorage } from 'async_hooks';
 import {
@@ -19,7 +19,7 @@ export class ProviderPino implements Provider, OnApplicationShutdown {
     @Inject(MODULE_OPTIONS_TOKEN)
     private readonly options: ProviderPinoModuleOptions
   ) {
-    this.logger = pino(this.options.pinoOptions);
+    this.logger = options.pino;
   }
 
   private getContextWithAttributesAndData(

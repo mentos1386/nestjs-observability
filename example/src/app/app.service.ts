@@ -7,7 +7,7 @@ export class AppService {
 
   getData(): { message: string } {
     this.ObservabilityService.setAttributes({ some: 'attribute' });
-    this.ObservabilityService.warning('Whups?');
+    this.ObservabilityService.error(new Error('Whups?'));
     return { message: 'Hello API' };
   }
 }

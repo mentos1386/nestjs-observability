@@ -1,9 +1,8 @@
 import { ConfigurableModuleBuilder } from '@nestjs/common';
-import { LoggerOptions, DestinationStream } from 'pino';
+import { Logger } from 'pino';
 
 export interface ProviderPinoModuleOptions {
-  // It make no sense to provide level, as that is already handled by the ObservabilityModule.
-  pinoOptions: Omit<LoggerOptions, 'level'> | DestinationStream;
+  pino: Logger;
 }
 
 export const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } =
