@@ -1,0 +1,18 @@
+version: '2'
+services:
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - '16686:16686' # web ui
+
+  collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    volumes:
+      - ./tools/collector.yaml:/etc/collector.yaml
+    command: ['--config=/etc/collector.yaml']
+    ports:
+      - '13133:13133' # health_check extension
+      - '4317:4317' # OTLP gRPC receiver
+      - '4318:4318' # OTLP HTTP receiver
+    depends_on:
+      - jaeger-all-in-one

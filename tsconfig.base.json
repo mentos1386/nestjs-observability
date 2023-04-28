@@ -15,12 +15,15 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nestjs-observability/provider-sentry": [
-        "libs/provider-sentry/src/index.ts"
-      ],
       "@nestjs-observability/core": ["libs/core/src/index.ts"],
+      "@nestjs-observability/provider-opentelemetry": [
+        "libs/provider-opentelemetry/src/index.ts"
+      ],
       "@nestjs-observability/provider-pino": [
         "libs/provider-pino/src/index.ts"
+      ],
+      "@nestjs-observability/provider-sentry": [
+        "libs/provider-sentry/src/index.ts"
       ],
       "@nestjs-observability/spec": ["libs/spec/src/index.ts"]
     }

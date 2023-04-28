@@ -25,6 +25,11 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
+import {
+  ProviderOpentelemetry,
+  ProviderOpentelemetryModule,
+} from '@nestjs-observability/provider-opentelemetry';
+
 @Module({
   imports: [
     ProviderPinoModule.forRoot({
@@ -35,9 +40,10 @@ Sentry.init({
       }),
     }),
     ProviderSentryModule.forRoot({}),
+    ProviderOpentelemetryModule.forRoot({}),
     ObservabilityModule.forRoot({
       level: ObservabilityLevel.DEBUG,
-      providers: [ProviderPino, ProviderSentry],
+      providers: [ProviderPino, ProviderSentry, ProviderOpentelemetry],
       middleware: true,
     }),
   ],
