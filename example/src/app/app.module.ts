@@ -34,7 +34,7 @@ Sentry.init({
         transport: { target: 'pino-pretty' },
       }),
     }),
-    ProviderSentryModule.forRoot(),
+    ProviderSentryModule.forRoot({}),
     ObservabilityModule.forRoot({
       level: ObservabilityLevel.DEBUG,
       providers: [ProviderPino, ProviderSentry],
