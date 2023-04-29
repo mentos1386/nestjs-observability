@@ -12,26 +12,8 @@ export const INSTRUMENTATION_NAME =
 
 @Injectable()
 export class ProviderOpentelemetry implements Provider {
-  private getTracer() {
-    return trace.getTracer(INSTRUMENTATION_NAME);
-  }
-
   private getSpan(): Span | undefined {
     return trace.getSpan(context.active());
-  }
-
-  inject<T>(fun: () => Promise<T>): Promise<T> {
-    // TODO(mentos1386): Add support for context propagation.
-    // TODO(mentos1386): This is only needed in case of "custom" implementations,
-    // such as queue processors.
-    //
-    // Maybe we shouldn't do opentelemetry injection at all. Maybe only in case of no span being started,
-    // but treat that as a not-intended, and redirect users twoards tarting spans manually.
-    //
-    // Let this library unite the "setAttributes" and "capture*" methods only.
-    return this.getTracer().startActiveSpan('inject', (span) =>
-      fun().finally(() => span.end())
-    );
   }
 
   setAttributes(_context: string, attributes: Attributes): void {

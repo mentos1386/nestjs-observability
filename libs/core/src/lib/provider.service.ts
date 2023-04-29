@@ -23,52 +23,50 @@ export class ObservabilityProviderService implements Provider {
     );
   }
 
-  inject<T>(fun: () => Promise<T>): Promise<T> {
-    return this.providers.reduce(
-      (fun, provider) => () => provider.inject(fun),
-      fun
-    )();
-  }
   setAttributes(context: string, attributes: Attributes): void {
     return this.providers.forEach((provider) =>
       provider.setAttributes(context, attributes)
     );
   }
+
   captureInfo(
     context: string,
     message: string,
-    data?: unknown,
-    attributes?: Attributes
+    data: unknown = {},
+    attributes: Attributes = {}
   ): void {
     return this.providers.forEach((provider) =>
       provider.captureInfo(context, message, data, attributes)
     );
   }
+
   captureDebug(
     context: string,
     message: string,
-    data?: unknown,
-    attributes?: Attributes
+    data: unknown = {},
+    attributes: Attributes = {}
   ): void {
     return this.providers.forEach((provider) =>
       provider.captureDebug(context, message, data, attributes)
     );
   }
+
   captureWarning(
     context: string,
     messageOrError: string | Error,
-    data?: unknown,
-    attributes?: Attributes
+    data: unknown = {},
+    attributes: Attributes = {}
   ): void {
     return this.providers.forEach((provider) =>
       provider.captureWarning(context, messageOrError, data, attributes)
     );
   }
+
   captureError(
     context: string,
     messageOrError: string | Error,
-    data?: unknown,
-    attributes?: Attributes
+    data: unknown = {},
+    attributes: Attributes = {}
   ): void {
     return this.providers.forEach((provider) =>
       provider.captureError(context, messageOrError, data, attributes)

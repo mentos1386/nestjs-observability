@@ -66,17 +66,6 @@ export class ObservabilityService {
     this.context = context;
   }
 
-  inject<T>(fun: () => Promise<T>): Promise<T> {
-    return this.providerService.inject(async () => {
-      try {
-        return await fun();
-      } catch (error) {
-        this.providerService.captureError(this.context, error);
-        throw error;
-      }
-    });
-  }
-
   setAttributes(attributes: Attributes): void {
     this.providerService.setAttributes(this.context, attributes);
   }

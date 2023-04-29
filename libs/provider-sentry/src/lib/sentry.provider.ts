@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import {
   Attributes,
   CommonAttributes,
@@ -9,7 +9,7 @@ import { Scope, Hub } from '@sentry/node';
 import * as Sentry from '@sentry/node';
 
 @Injectable()
-export class ProviderSentry implements Provider {
+export class ProviderSentry implements Provider, OnApplicationShutdown {
   private getScopeOrHub(): Scope | Hub {
     // Get current hub.
     const hub = Sentry.getCurrentHub();
@@ -24,6 +24,10 @@ export class ProviderSentry implements Provider {
     return hub;
   }
 
+  async onApplicationShutdown(): Promise<void> {
+    await Sentry.flush();
+  }
+
   inject<T>(fun: () => Promise<T>): Promise<T> {
     return Sentry.runWithAsyncContext(() => {
       Sentry.getCurrentHub().getScope()?.clear();
@@ -33,6 +37,10 @@ export class ProviderSentry implements Provider {
 
   setAttributes(_context: string, attributes: Attributes): void {
     this.getScopeOrHub().setTags(attributes);
+
+    Object.keys(attributes ?? {}).forEach((key) =>
+      Sentry.getActiveTransaction()?.setTag(key, attributes[key])
+    );
   }
 
   captureInfo(
@@ -90,7 +98,7 @@ export class ProviderSentry implements Provider {
     attributes?: Attributes
   ): void {
     this.getScopeOrHub().setContext(context, data);
-    this.getScopeOrHub().setTags(attributes);
+    this.setAttributes(context, attributes);
     Sentry.captureException(messageOrError);
   }
 }

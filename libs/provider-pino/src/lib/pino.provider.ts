@@ -17,7 +17,7 @@ export class ProviderPino implements Provider, OnApplicationShutdown {
 
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN)
-    private readonly options: ProviderPinoModuleOptions
+    options: ProviderPinoModuleOptions
   ) {
     this.logger = options.pino;
   }

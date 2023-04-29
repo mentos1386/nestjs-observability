@@ -34,3 +34,15 @@ jobs:
           npx lcov-result-merger 'coverage/**' 'coverage/lcov.info'
       - name: Send Test Coverage
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/lcov.info
+
+  auto-merge:
+    needs: test
+    if: (contains(github.event.pull_request.user.login, 'dependabot') || contains(github.event.pull_request.user.login, 'renovate')) && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: automerge
+        uses: pascalgn/automerge-action@v0.15.6
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          MERGE_LABELS: ''
+          MERGE_METHOD: rebase

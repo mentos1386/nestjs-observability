@@ -18,12 +18,6 @@ import {
   ProviderSentry,
   ProviderSentryModule,
 } from '@nestjs-observability/provider-sentry';
-import * as Sentry from '@sentry/node';
-
-Sentry.init({
-  dsn: 'https://12e6ca9b70354161bc2a6c0478e01f9f@o4505092058775552.ingest.sentry.io/4505092059889664',
-  tracesSampleRate: 1.0,
-});
 
 import {
   ProviderOpentelemetry,
@@ -44,7 +38,6 @@ import {
     ObservabilityModule.forRoot({
       level: ObservabilityLevel.DEBUG,
       providers: [ProviderPino, ProviderSentry, ProviderOpentelemetry],
-      middleware: true,
     }),
   ],
   controllers: [AppController],

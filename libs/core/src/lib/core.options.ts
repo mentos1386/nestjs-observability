@@ -18,9 +18,6 @@ export const ObservabilityLevelValue = {
 
 export interface ObservabilityModuleOptions {
   level: ObservabilityLevel;
-
-  middleware?: boolean;
-
   providers: Class<Provider>[];
 }
 
